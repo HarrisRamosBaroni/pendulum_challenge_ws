@@ -4,12 +4,29 @@ FROM althack/ros2:jazzy-gazebo
 
 ENV DEBIAN_FRONTEND=noninteractive
 RUN apt-get update \
-   && apt-get -y install --no-install-recommends fzf fd-find \
-   #
+   && apt-get -y install --no-install-recommends \
+      python3-scipy python3-numpy \
+      build-essential liblapack-dev libopenblas-dev python3-dev python3-venv \
+      fzf fd-find \
+      ros-jazzy-ros2-control \
+      ros-jazzy-ros2-controllers \
+      ros-jazzy-gz-ros2-control \
    # Clean up
    && apt-get autoremove -y \
    && apt-get clean -y \
    && rm -rf /var/lib/apt/lists/*
+
+# Create virtual environment
+COPY requirements.txt .
+RUN python3 -m venv /opt/venv \
+   && /opt/venv/bin/pip install --upgrade pip \
+#    && /opt/venv/bin/pip install slycot control
+   && /opt/venv/bin/pip install -r requirements.txt
+
+# Make venv accessible to ROS
+ENV PATH="/opt/venv/bin:${PATH}"
+ENV PYTHONPATH="/opt/venv/lib/python3.12/site-packages:${PYTHONPATH}"
+
 ENV DEBIAN_FRONTEND=dialog
 
 # Set up auto-source of workspace for ros user
