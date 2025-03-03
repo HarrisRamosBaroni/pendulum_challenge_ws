@@ -21,11 +21,17 @@ if("$ENV{GZ_VERSION}" STREQUAL "harmonic")
   find_package(gz-sim8 REQUIRED)
   set(GZ_SIM_VER ${gz-sim8_VERSION_MAJOR})
   message(STATUS "Compiling against Gazebo Harmonic")
+
+  find_library(GZ_SIM_LIB gz-sim${GZ_SIM_VER} REQUIRED)
+
 # Default to Garden
 else()
   find_package(gz-sim7 REQUIRED)
   set(GZ_SIM_VER ${gz-sim7_VERSION_MAJOR})
   message(STATUS "Compiling against Gazebo Garden")
+
+  find_library(GZ_SIM_LIB gz-sim${GZ_SIM_VER} REQUIRED)
+
 endif()
 
 
@@ -41,9 +47,15 @@ add_library(BasicSystem
 # include directory to use when compiling the 'BasicSystem' target.
 # The 'PRIVATE' keyword specifies that this directive will populate the
 # INCLUDE_DIRECTORIES property for the 'BasicSystem' target.
-target_include_directories(
-  BasicSystem PRIVATE include
+target_include_directories(BasicSystem PRIVATE
+  include
+  ${gz-common5_INCLUDE_DIRS}
+  ${gz-plugin2_INCLUDE_DIRS}
+  ${gz-sim${GZ_SIM_VER}_INCLUDE_DIRS}
 )
+# target_include_directories(
+#   BasicSystem PRIVATE include
+# )
 
 # Following 'target_link_libraries' directive specifies to use the 
 # gz-sim library when linking the 'BasicSystem' target.
@@ -52,7 +64,9 @@ target_include_directories(
 # be linked to anoter target. 
 # ${GZ_SIM_VER} is substituted by the value that is was set to above.
 target_link_libraries(BasicSystem PRIVATE
-  gz-sim${GZ_SIM_VER}::gz-sim${GZ_SIM_VER})
+  gz-sim${GZ_SIM_VER}::gz-sim${GZ_SIM_VER} ${GZ_SIM_LIB})
+  # gz-sim${GZ_SIM_VER}::gz-sim${GZ_SIM_VER})
+# target_link_libraries(BasicSystem PRIVATE ${GZ_SIM_LIB})
 
 
 # Following directives similarly specify another target: 'FullSystem'.
@@ -61,12 +75,20 @@ add_library(FullSystem
   src/FullSystem.cc
 )
 
-target_include_directories(
-  FullSystem PRIVATE include
+target_include_directories(FullSystem PRIVATE
+  include
+  ${gz-common5_INCLUDE_DIRS}
+  ${gz-plugin2_INCLUDE_DIRS}
+  ${gz-sim${GZ_SIM_VER}_INCLUDE_DIRS}
 )
+# target_include_directories(
+#   FullSystem PRIVATE include
+# )
 
 target_link_libraries(FullSystem PRIVATE
-  gz-sim${GZ_SIM_VER}::gz-sim${GZ_SIM_VER})
+  gz-sim${GZ_SIM_VER}::gz-sim${GZ_SIM_VER} ${GZ_SIM_LIB})
+  #   gz-sim${GZ_SIM_VER}::gz-sim${GZ_SIM_VER})
+# target_link_libraries(FullSystem PRIVATE ${GZ_SIM_LIB})
 
 
 
