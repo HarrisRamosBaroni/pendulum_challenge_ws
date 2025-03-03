@@ -10,7 +10,7 @@ endif()
 find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(Eigen3 REQUIRED)
-target_link_libraries(your_target_name PRIVATE Eigen3::Eigen)
+# target_link_libraries(your_target_name PRIVATE Eigen3::Eigen)
 
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)
