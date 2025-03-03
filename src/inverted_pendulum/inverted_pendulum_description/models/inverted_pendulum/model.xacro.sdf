@@ -1,5 +1,5 @@
 <?xml version="1.0" ?>
-<sdf version="1.8">
+<sdf version="1.8" xmlns:xacro="http://www.ros.org/wiki/xacro">
   <model name="inverted_pendulum">
 
     <!-- New top-level link (canonical) -->
@@ -126,74 +126,9 @@
       <joint_name>cart_joint</joint_name>
     </plugin>
 
-                                                 <!-- Legacy gazebo classic -->
-    <!-- <plugin name="gazebo_ros2_control"  filename="libgazebo_ros2_control.so" >
-      <robotNamespace>/</robotNamespace>
-    </plugin> -->
-
-
-    <!-- This plugin blocks sets up the controller manager, and we set the name controller_manager -->
-    <!-- We also pass the cart_controllers.yaml file as a config file to set up the controller manager -->
-    <!-- "In addition to the ros2_control tags, a Gazebo plugin needs to be added to your URDF or SDF that actually parses the ros2_control tags and loads the appropriate hardware interfaces and controller manager" -->
-                                                                        <!--  gazebo sim (harmonic) -->
-    <!-- <plugin name="gz_ros2_control::GazeboSimROS2ControlPlugin" filename="gz_ros2_control-system"> -->
-      <!-- <parameters>$(find inverted_pendulum_controller)/config/cart_controllers.yaml</parameters> -->
-      <!-- <parameters>$(fdfind inverted_pendulum_controller)/config/cart_controllers.yaml</parameters> -->
-      <!-- <controller_manager_prefix_node_name>controller_manager</controller_manager_prefix_node_name> -->
-    <plugin name="gz_ros2_control::GazeboSimROS2ControlPlugin" filename="libgz_ros2_control-system.so">
-      <parameters>/workspaces/pendulum_challenge_ws/src/inverted_pendulum/inverted_pendulum_controller/config/cart_controllers.yaml</parameters>
-    </plugin>
-
     <plugin filename="gz_ros2_control-system" name="gz_ros2_control::GazeboSimROS2ControlPlugin">
       <parameters>/workspaces/pendulum_challenge_ws/src/inverted_pendulum/inverted_pendulum_controller/config/cart_controllers.yaml</parameters>
     </plugin>
-
-
-    <!-- <plugin filename="your_control_plugin" name="your::control::Plugin"/> -->
-    <!-- Optionally include PID parameters if using force mode -->
-    <!-- <plugin filename="gz-sim-joint-controller-system" name="gz::sim::systems::JointController">
-      <joint_name>cart_joint</joint_name>
-      <initial_position>2000.0</initial_position>
-      <initial_velocity>0.001</initial_velocity>
-      <use_force_commands>true</use_force_commands>
-      <p_gain>10.0</p_gain>
-      <i_gain>0.1</i_gain>
-
-      <joint_name>pendulum_joint</joint_name>
-      <initial_position>6000.0</initial_position>
-      <initial_velocity>0.001</initial_velocity>
-    </plugin> -->
-
-    <!-- <plugin filename="gz-sim-joint-controller-system" name="gz::sim::systems::JointController">
-      <joint_name>cart_joint</joint_name>
-      <initial_position>2.0</initial_position>
-      <initial_velocity>0.001</initial_velocity>
-      <use_force_commands>true</use_force_commands>
-      <p_gain>100.0</p_gain>
-      <i_gain>0.1</i_gain>
-    </plugin> -->
-
-    <!-- <plugin filename="gz-sim-joint-controller-system" name="gz::sim::systems::JointController">
-      <joint_name>pendulum_joint</joint_name>
-      <initial_position>0.6</initial_position>
-      <initial_velocity>0.001</initial_velocity>
-      <use_force_commands>true</use_force_commands>
-      <p_gain>5.0</p_gain>
-      <i_gain>0.05</i_gain>
-    </plugin> -->
-
-    <!-- Keep the JointController plugin for pendulum_joint, but only for initial positioning -->
-    <!-- <plugin filename="gz-sim-joint-controller-system" name="gz::sim::systems::JointController"> -->
-      <!-- <joint_name>pendulum_joint</joint_name> -->
-      <!-- <initial_position>0.6</initial_position> -->
-      <!-- <initial_velocity>0.0</initial_velocity> -->
-      <!-- Remove PID gains and force commands to prevent active control -->
-    <!-- </plugin> -->
-
-    <!-- Add a plugin to apply forces to cart_joint -->
-    <!-- <plugin filename="gz-sim-apply-joint-force-system" name="gz::sim::systems::ApplyJointForce">
-      <joint_name>cart_joint</joint_name>
-    </plugin> -->
 
   </model>
 </sdf>
