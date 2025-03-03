@@ -4,3 +4,4 @@ log/*
 site/*
 src/examples/
 .devcontainer/devcontainer.json
+__pycache__/
